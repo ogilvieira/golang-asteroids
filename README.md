@@ -1,5 +1,5 @@
 <p align="center">
-    [!screenshot](./screenshot.png)
+    <img src="./screenshot.png" alt="screenshot"/>
 </p>
 
 - Golang
