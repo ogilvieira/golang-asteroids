@@ -29,8 +29,11 @@ func NewGame() *Game {
 func (g *Game) Update() error {
 	g.player.Update()
 
-	for _, l := range g.lasers {
+	for i, l := range g.lasers {
 		l.Update()
+		if l.position.Y < 0 {
+			g.lasers = append(g.lasers[:i], g.lasers[i+1:]...)
+		}
 	}
 
 	g.meteorSpawnTimer.Update()
@@ -40,12 +43,16 @@ func (g *Game) Update() error {
 		g.meteors = append(g.meteors, m)
 	}
 
-	for _, m := range g.meteors {
+	for i, m := range g.meteors {
 		m.Update()
 
 		if m.Collider().Intersects(g.player.Collider()) {
 			g.Reset()
 			break
+		}
+
+		if m.position.Y > screenHeight {
+			g.meteors = append(g.meteors[:i], g.meteors[i+1:]...)
 		}
 	}
 
